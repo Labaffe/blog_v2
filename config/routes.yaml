@@ -1,0 +1,3 @@
+blog:
+    path: /
+    controller: App\Controller\BlogController::index

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BlogController!{% endblock %}
+
+{% block body %}
+
+
+<div>
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+			  <th class = "text-center"><h1>{{ titre }}</h1></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for article in articles %}
+			<tr>
+				<td>
+					<h1><a href="{{ path('app_show',{'id':article.id}) }}">{{article.titre|capitalize}}</a></h1>
+					<div> {{article.description|truncate(50,"...")}}</div>
+					<div>publié le <i>{{article.getDatePublication()|date('d/m/Y')}}</i></div>
+					<p class="pl-3 pb-3 text-muted">
+						<small>
+							créé par {{ article.userId.firstName }} {{ article.userId.lastName }}
+						</small>
+					</p>
+				</td>
+			</tr>
+			{% endfor %}
+			{# display navigation #} 
+		</tbody>
+	</table>	
+	<div class="pagination">
+		{{ knp_pagination_render(articles) }} 
+	</div> 
+</div>
+{% endblock %}

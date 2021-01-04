@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BlogController!{% endblock %}
+
+{% block body %}
+	<h1>{{article.titre|capitalize}}</h1>
+	<div>{{article.description|capitalize}}</div>
+	<div>publié le <i>{{article.getDatePublication()|date('d/m/Y')}}</i></div>
+	<p class="pl-3 pb-3 text-muted">
+		<small>
+			créé par {{ article.userId.firstName }} {{ article.userId.lastName }}
+		</small>
+	</p>
+	{% if article.getUserId() == app.user %}
+		<a href="{{ path('app_edit',{id:article.id}) }}" class="btn btl-light">Edition</a>|
+		<a href="#" onclick="confirm('Vous êtes sur ?') && document.getElementById('delete-article').submit();" class="btn btl-light">Supprimer</a>|
+	{% endif %}
+	<a href="{{ path('blog') }}" class="btn btl-light">Retour</a>
+	<form id="delete-article" action="{{ path('app_delete',{id:article.id}) }}" method="post" style="display:none;">
+		<input type="hidden" name="csrf_token" value="{{ csrf_token('delete_article'~article.id) }}">
+		<input type="hidden" name="_method" value="DELETE">
+	</form>
+{% endblock %}
